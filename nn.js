@@ -32,6 +32,7 @@ class NeuralNetwork {
   }
   
   //Pass inputs through the network, return an output
+  //ih - input to hidden weights
   feedforward(input_array){
 
     //Generate Hidden Node outputs
@@ -43,6 +44,7 @@ class NeuralNetwork {
     hidden.map(sigmoid);
 
     //Generating the output's outputs!
+    //ho - hidden to output weights
     let output = Matrix.multiply(this.weights_ho, hidden);
     output.add(this.bias_o);
     output.map(sigmoid);
@@ -50,7 +52,7 @@ class NeuralNetwork {
     return output.toArray();
   }
 
-  //Supervised Learning!
+  //Supervised Learning, pass in inputs with respective targets
   train(input_array, target_array){
     //Get inputs (matrix) from input array
     let inputs = Matrix.fromArray(input_array);
@@ -90,6 +92,7 @@ class NeuralNetwork {
     this.bias_o.add(gradients);
 
     //Calculate hidden Layer errors
+    //multiply transposed matrix of h->o weights with the errors
     let who_t = Matrix.transpose(this.weights_ho);
     let hidden_errors = Matrix.multiply(who_t, output_errors);
 
